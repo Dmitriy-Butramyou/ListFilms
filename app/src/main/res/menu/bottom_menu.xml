@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/to_view"
+        android:title="@string/to_view_films_label"
+        android:icon="@drawable/ic_to_view_24dp"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/viewed"
+        android:title="@string/viewed_films_label"
+        android:icon="@drawable/ic_viewed_24dp"
+        app:showAsAction="always"/>
+
+</menu>
