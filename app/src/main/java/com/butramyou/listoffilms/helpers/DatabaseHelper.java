@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addFilm(Film film) {
+    public void addFilm(Film film) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -50,18 +50,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    Film getFilm(int id) {
+    public Film getFilm(int id) {
+        Film film = new Film();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
+            film = new Film(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Boolean.parseBoolean(cursor.getString(2)));
         }
 
-        Film film = new Film(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Boolean.parseBoolean(cursor.getString(2)));
-
         return film;
+    }
+
+    public List<Film> getFilms(boolean isViewed) {
+        List<Film> films = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED}, KEY_IS_VIEWED + "=?",
+                new String[]{String.valueOf(isViewed)}, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Film film = new Film();
+                film.setId(Integer.parseInt(cursor.getString(0)));
+                film.setName(cursor.getString(1));
+                film.setViewed(Boolean.parseBoolean(cursor.getString(2)));
+
+                films.add(film);
+            } while (cursor.moveToNext());
+        }
+
+        return films;
     }
 
     public List<Film> getAllFilms() {

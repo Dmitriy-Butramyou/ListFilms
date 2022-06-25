@@ -1,7 +1,6 @@
 package com.butramyou.listoffilms;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,12 +10,14 @@ import com.butramyou.listoffilms.databinding.ActivityMainBinding;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.BottomNavigationViewHelper;
+import com.butramyou.listoffilms.helpers.DatabaseHelper;
+import com.butramyou.listoffilms.model.Film;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
     private ActivityMainBinding binding;
 
     @Override

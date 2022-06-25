@@ -10,12 +10,16 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.butramyou.listoffilms.R;
+import com.butramyou.listoffilms.helpers.DatabaseHelper;
+import com.butramyou.listoffilms.model.Film;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ViewedFilmsFragment extends Fragment {
 
-    public ViewedFilmsFragment() {
-        // Required empty public constructor
-    }
+    private List<Film> viewedFilmsCash = new ArrayList<>();
 
     public static ViewedFilmsFragment getInstance()    {
         return new ViewedFilmsFragment();
@@ -26,20 +30,30 @@ public class ViewedFilmsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_viwed, container, false);
 
-        String[] films = {"Nikita", "Zorro", "Black Angel"};
+        if(viewedFilmsCash.isEmpty()) {
+            DatabaseHelper db = new DatabaseHelper(view.getContext());
+            viewedFilmsCash = db.getFilms(true);
+        }
+
+        List<String> filmsLabel = new ArrayList<>();
+        for (Film film : viewedFilmsCash) {
+            String filmName = film.getName() + " | isViewed: " + film.isViewed();
+            filmsLabel.add(filmName);
+        }
 
         ListView listView = view.findViewById(R.id.to_view_films_list);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
-                films
+                filmsLabel.toArray(new String[0])
         );
-
         listView.setAdapter(adapter);
 
-
         return view;
+    }
+
+    public void cleanCash() {
+        viewedFilmsCash = Collections.emptyList();
     }
 
 }
