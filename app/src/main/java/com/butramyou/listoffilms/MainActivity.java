@@ -7,13 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.butramyou.listoffilms.databinding.ActivityMainBinding;
+import com.butramyou.listoffilms.fragments.AddFilmFragment;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.BottomNavigationViewHelper;
-import com.butramyou.listoffilms.helpers.DatabaseHelper;
-import com.butramyou.listoffilms.model.Film;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
         });
         setDefaultFragment();
 
-        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        binding.fab.setOnClickListener(view -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_frame, AddFilmFragment.getInstance());
+            transaction.commit();
+        });
     }
 
     private void setDefaultFragment() {

@@ -2,4 +2,7 @@
     <string name="app_name">List of films</string>
     <string name="viewed_films_label">Viewed</string>
     <string name="to_view_films_label">To view</string>
+    <string name="add_film">Add film</string>
+    <string name="cancel">Cancel</string>
+    <string name="film_name_hint">Film name</string>
 </resources>
