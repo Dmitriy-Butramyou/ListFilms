@@ -10,35 +10,32 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.butramyou.listoffilms.MainActivity;
 import com.butramyou.listoffilms.R;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
 import com.butramyou.listoffilms.model.Film;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ToViewFilmsFragment extends Fragment {
 
-    private List<Film> toViewFilmsCash = new ArrayList<>();
-
     public static ToViewFilmsFragment getInstance()    {
         return new ToViewFilmsFragment();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_view, container, false);
 
-        if(toViewFilmsCash.isEmpty()) {
+        if(MainActivity.getToViewFilmsCash().isEmpty()) {
             DatabaseHelper db = new DatabaseHelper(view.getContext());
-            toViewFilmsCash = db.getFilms(false);
+            MainActivity.setToViewFilmsCash(db.getFilms(false));
         }
 
         List<String> filmsLabel = new ArrayList<>();
-        for (Film film : toViewFilmsCash) {
+        for (Film film : MainActivity.getToViewFilmsCash()) {
             String filmName = film.getName() + " | isViewed: " + film.isViewed();
             filmsLabel.add(filmName);
         }
@@ -52,10 +49,6 @@ public class ToViewFilmsFragment extends Fragment {
         listView.setAdapter(adapter);
 
         return view;
-    }
-
-    public void cleanCash() {
-        toViewFilmsCash = Collections.emptyList();
     }
 
 }
