@@ -35,7 +35,7 @@ public class AddFilmFragment extends Fragment {
         filmName = view.findViewById(R.id.add_film_name);
 
         addFilmButton.setOnClickListener(v -> {
-            String name = filmName.getText().toString();
+            String name = filmName.getText().toString().trim();
             if(!name.isEmpty()) {
                 DatabaseHelper db = new DatabaseHelper(view.getContext());
                 Film newFilm = new Film(name, false);
