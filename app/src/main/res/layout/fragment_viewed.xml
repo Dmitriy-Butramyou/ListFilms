@@ -7,7 +7,7 @@
     tools:context=".fragments.ViewedFilmsFragment">
 
     <ListView
-        android:id="@+id/to_view_films_list"
+        android:id="@+id/viewed_films_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

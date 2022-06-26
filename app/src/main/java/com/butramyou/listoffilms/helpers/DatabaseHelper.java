@@ -109,17 +109,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_IS_VIEWED, film.isViewed().toString());
         values.put(KEY_NAME, film.getName());
-        values.put(KEY_IS_VIEWED, film.isViewed());
 
         return db.update(TABLE_CONTACTS, values, KEY_ID + "=?",
                 new String[]{String.valueOf(film.getId())});
     }
 
-    public void deleteFilm(Film film) {
+    public void deleteFilm(int filmId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, KEY_ID + "=?",
-                new String[]{String.valueOf(film.getId())});
+                new String[]{String.valueOf(filmId)});
         db.close();
     }
 
@@ -132,5 +132,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
+    public Film updateViewedStatus(Film film) {
+        film.setViewed(!film.isViewed());
+        return film;
+    }
 
 }

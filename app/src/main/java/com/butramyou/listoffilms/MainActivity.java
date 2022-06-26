@@ -11,17 +11,9 @@ import com.butramyou.listoffilms.fragments.AddFilmFragment;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.BottomNavigationViewHelper;
-import com.butramyou.listoffilms.model.Film;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
-
-    private static List<Film> toViewFilmsCash = new ArrayList<>();
-    private static List<Film> viewedFilmsCash = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,34 +60,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_frame, ToViewFilmsFragment.getInstance());
         transaction.commit();
-    }
-
-    public static List<Film> getToViewFilmsCash() {
-        return toViewFilmsCash;
-    }
-
-    public static void setToViewFilmsCash(List<Film> toViewFilmsCash) {
-        MainActivity.toViewFilmsCash = toViewFilmsCash;
-    }
-
-    public static List<Film> getViewedFilmsCash() {
-        return viewedFilmsCash;
-    }
-
-    public static void setViewedFilmsCash(List<Film> viewedFilmsCash) {
-        MainActivity.viewedFilmsCash = viewedFilmsCash;
-    }
-
-    public static void cleanAllCash() {
-        viewedFilmsCash = Collections.emptyList();
-        toViewFilmsCash = Collections.emptyList();
-    }
-
-    public static void cleanViewedCash() {
-        viewedFilmsCash = Collections.emptyList();
-    }
-
-    public static void cleanToViewCash() {
-        toViewFilmsCash = Collections.emptyList();
     }
 }

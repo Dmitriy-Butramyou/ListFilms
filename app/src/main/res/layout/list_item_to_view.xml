@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".fragments.ToViewFilmsFragment">
+
+        <TextView
+            android:id="@+id/to_view_film_item_list"
+            android:layout_width="270dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="40dp"/>
+
+        <ImageButton
+            android:id="@+id/change_watched_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/to_view_film_item_list"
+            android:src="@drawable/ic_viewed" />
+
+        <ImageButton
+            android:id="@+id/delete_film"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/change_watched_status"
+            android:src="@drawable/ic_delete" />
+
+
+</RelativeLayout>

@@ -41,7 +41,6 @@ public class AddFilmFragment extends Fragment {
                 Film newFilm = new Film(name, false);
                 db.addFilm(newFilm);
 
-                MainActivity.cleanToViewCash();
                 showToViewPage();
             }
         });
