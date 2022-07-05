@@ -2,6 +2,8 @@ package com.butramyou.listoffilms.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
 import com.butramyou.listoffilms.model.Film;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -55,9 +58,17 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
         });
 
         viewHolder.deleteBtn.setOnClickListener(v -> {
-            DatabaseHelper db = new DatabaseHelper(getContext());
-            db.deleteFilm(currentFilm.getId());
-            recreateCurrentFragment(currentFilm.isViewed());
+
+            new MaterialAlertDialogBuilder(getContext())
+                    .setMessage(Html.fromHtml(v.getContext().getString(R.string.is_delete_film, currentFilm.getName()), Build.VERSION.SDK_INT))
+                    .setPositiveButton(v.getContext().getString(R.string.ok), (dialog, id) -> {
+                        DatabaseHelper db = new DatabaseHelper(getContext());
+                        db.deleteFilm(currentFilm.getId());
+                        recreateCurrentFragment(currentFilm.isViewed());
+                    })
+                    .setNegativeButton(v.getContext().getString(R.string.cancel), (dialog, id) -> dialog.cancel())
+                    .show();
+
         });
         convertView.setTag(viewHolder);
 

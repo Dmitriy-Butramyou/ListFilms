@@ -4,5 +4,11 @@
     <string name="to_view_films_label">To view</string>
     <string name="add_film">Add film</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="film_name_hint">Film name</string>
+    <string name="is_delete_film">
+        <![CDATA[
+            The movie <b>%1$s</b> will be deleted
+        ]]>
+</string>
 </resources>
