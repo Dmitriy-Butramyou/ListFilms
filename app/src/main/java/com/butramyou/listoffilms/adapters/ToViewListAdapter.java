@@ -57,19 +57,15 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
             recreateCurrentFragment(!currentFilm.isViewed());
         });
 
-        viewHolder.deleteBtn.setOnClickListener(v -> {
-
-            new MaterialAlertDialogBuilder(getContext())
-                    .setMessage(Html.fromHtml(v.getContext().getString(R.string.is_delete_film, currentFilm.getName()), Build.VERSION.SDK_INT))
-                    .setPositiveButton(v.getContext().getString(R.string.ok), (dialog, id) -> {
-                        DatabaseHelper db = new DatabaseHelper(getContext());
-                        db.deleteFilm(currentFilm.getId());
-                        recreateCurrentFragment(currentFilm.isViewed());
-                    })
-                    .setNegativeButton(v.getContext().getString(R.string.cancel), (dialog, id) -> dialog.cancel())
-                    .show();
-
-        });
+        viewHolder.deleteBtn.setOnClickListener(v -> new MaterialAlertDialogBuilder(getContext())
+                .setMessage(Html.fromHtml(v.getContext().getString(R.string.is_delete_film, currentFilm.getName()), Build.VERSION.SDK_INT))
+                .setPositiveButton(v.getContext().getString(R.string.ok), (dialog, id) -> {
+                    DatabaseHelper db = new DatabaseHelper(getContext());
+                    db.deleteFilm(currentFilm.getId());
+                    recreateCurrentFragment(currentFilm.isViewed());
+                })
+                .setNegativeButton(v.getContext().getString(R.string.cancel), (dialog, id) -> dialog.cancel())
+                .show());
         convertView.setTag(viewHolder);
 
         return convertView;

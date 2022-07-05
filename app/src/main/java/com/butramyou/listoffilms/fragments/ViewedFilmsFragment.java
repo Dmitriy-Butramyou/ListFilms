@@ -1,6 +1,8 @@
 package com.butramyou.listoffilms.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,13 @@ public class ViewedFilmsFragment extends Fragment {
                 R.layout.list_item_to_view,
                 films,
                 getFragmentManager());
-        listView.setOnItemClickListener((parent, view1, position, id) ->
-                Toast.makeText(getContext(), "Position: " + position, Toast.LENGTH_SHORT).show());
+        listView.setOnItemLongClickListener((parent, view1, position, id) -> {
+            final Vibrator vibe = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibe.vibrate(80);
+            Toast.makeText(getContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
         listView.setAdapter(adapter);
 
         return view;
