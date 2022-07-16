@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.butramyou.listoffilms.R;
 import com.butramyou.listoffilms.adapters.ToViewListAdapter;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
+import com.butramyou.listoffilms.helpers.FilmsComparator;
 import com.butramyou.listoffilms.model.Film;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class ToViewFilmsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_to_view, container, false);
         DatabaseHelper db = new DatabaseHelper(view.getContext());
         List<Film> films = db.getFilms(false);
+        FilmsComparator filmsComparator = new FilmsComparator();
+        films.sort(filmsComparator);
 
         ListView listView = view.findViewById(R.id.to_view_films_list);
         ToViewListAdapter adapter = new ToViewListAdapter(
