@@ -1,5 +1,6 @@
 package com.butramyou.listoffilms;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
             Fragment selectedFragment = null;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
                     item.setChecked(true);
                     selectedFragment = ToViewFilmsFragment.getInstance();
                     break;
-
                 case R.id.viewed:
                     item.setChecked(true);
                     selectedFragment = ViewedFilmsFragment.getInstance();

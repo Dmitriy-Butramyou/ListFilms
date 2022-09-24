@@ -1,13 +1,10 @@
 package com.butramyou.listoffilms.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +13,7 @@ import com.butramyou.listoffilms.adapters.ToViewListAdapter;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
 import com.butramyou.listoffilms.helpers.FilmsComparator;
 import com.butramyou.listoffilms.model.Film;
+import com.butramyou.listoffilms.service.ItemListenerService;
 
 import java.util.List;
 
@@ -40,10 +38,15 @@ public class ViewedFilmsFragment extends Fragment {
                 R.layout.list_item_to_view,
                 films,
                 getFragmentManager());
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            ItemListenerService service = new ItemListenerService(getContext());
+            service.doubleTab(parent, view1, position, id);
+            recreateFragment();
+        });
         listView.setOnItemLongClickListener((parent, view1, position, id) -> {
-            final Vibrator vibe = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-            vibe.vibrate(80);
-            Toast.makeText(getContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
+            ItemListenerService service = new ItemListenerService(getContext());
+            service.longClick(parent, view1, position, id);
+            recreateFragment();
             return true;
         });
 
@@ -52,4 +55,8 @@ public class ViewedFilmsFragment extends Fragment {
         return view;
     }
 
+    private void recreateFragment() {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, ViewedFilmsFragment.getInstance()).commit();
+    }
 }

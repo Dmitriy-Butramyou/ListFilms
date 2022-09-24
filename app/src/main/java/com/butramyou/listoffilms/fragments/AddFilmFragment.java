@@ -38,7 +38,7 @@ public class AddFilmFragment extends Fragment {
             String name = filmName.getText().toString().trim();
             if(!name.isEmpty()) {
                 DatabaseHelper db = new DatabaseHelper(view.getContext());
-                Film newFilm = new Film(name, false);
+                Film newFilm = new Film(name, false, false);
                 db.addFilm(newFilm);
 
                 showToViewPage();

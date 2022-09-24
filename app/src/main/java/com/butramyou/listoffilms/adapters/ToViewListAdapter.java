@@ -25,8 +25,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 public class ToViewListAdapter extends ArrayAdapter<Film> {
-    private int layout;
-    private FragmentManager fragmentManager;
+    private final int layout;
+    private final FragmentManager fragmentManager;
 
     public ToViewListAdapter(@NonNull Context context, int resource, List<Film> films, FragmentManager fragment) {
         super(context, resource, films);
@@ -50,6 +50,9 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
 
         viewHolder.changeStatusBtn.setImageResource(currentFilm.isViewed() ? R.drawable.ic_to_view : R.drawable.ic_viewed);
         viewHolder.textView.setText(currentFilm.getName());
+        if (currentFilm.isDownloaded()) {
+            viewHolder.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_downloaded, 0);
+        }
 
         viewHolder.changeStatusBtn.setOnClickListener(v -> {
             DatabaseHelper db = new DatabaseHelper(getContext());
@@ -79,7 +82,7 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
         }
     }
 
-    public class ViewHolder {
+    private class ViewHolder {
         TextView textView;
         ImageButton changeStatusBtn;
         ImageButton deleteBtn;

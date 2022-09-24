@@ -1,0 +1,46 @@
+package com.butramyou.listoffilms.service;
+
+import android.content.Context;
+import android.os.Vibrator;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.AdapterView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.butramyou.listoffilms.helpers.DatabaseHelper;
+import com.butramyou.listoffilms.model.Film;
+
+public class ItemListenerService {
+
+    private final Context context;
+    private final DatabaseHelper db;
+    private static long lastClickTime = System.currentTimeMillis();
+    private static int lastClickPosition = -1;
+
+    public ItemListenerService(@NonNull Context context) {
+        this.context = context;
+        this.db = new DatabaseHelper(context);
+    }
+
+    public void longClick(AdapterView<?> adapterView, View view, int position, long id) {
+        final Vibrator vibe = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(80);
+        Toast.makeText(context, "Position: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    public void doubleTab(AdapterView<?> adapterView, View view, int position, long id) {
+        long currTime = System.currentTimeMillis();
+        if (lastClickPosition == position && currTime - lastClickTime < ViewConfiguration.getDoubleTapTimeout()) {
+            onItemDoubleClick(adapterView, view, position, id);
+        }
+        lastClickTime = currTime;
+        lastClickPosition = position;
+    }
+
+    private void onItemDoubleClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Film currentFilm = (Film) adapterView.getItemAtPosition(position);
+        db.updateFilm(db.updatingDownloadStatus(currentFilm));
+    }
+}

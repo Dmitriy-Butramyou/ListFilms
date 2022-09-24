@@ -5,19 +5,22 @@ public class Film {
     private int id;
     private String name;
     private Boolean isViewed;
+    private Boolean isDownloaded;
 
     public Film() {
     }
 
-    public Film(String name, Boolean isViewed) {
+    public Film(String name, Boolean isViewed, Boolean isDownloaded) {
         this.name = name;
         this.isViewed = isViewed;
+        this.isDownloaded = isDownloaded;
     }
 
-    public Film(int id, String name, Boolean isViewed) {
+    public Film(int id, String name, Boolean isViewed, Boolean isDownloaded) {
         this.id = id;
         this.name = name;
         this.isViewed = isViewed;
+        this.isDownloaded = isDownloaded;
     }
 
     public int getId() {
@@ -42,5 +45,13 @@ public class Film {
 
     public void setViewed(Boolean viewed) {
         isViewed = viewed;
+    }
+
+    public Boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setDownloaded(Boolean isDownloaded) {
+        this.isDownloaded = isDownloaded;
     }
 }

@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_IS_VIEWED = "is_viewed";
+    private static final String KEY_IS_DOWNLOADED = "is_downloaded";
 
 
     public DatabaseHelper(Context context) {
@@ -29,12 +30,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_FILMS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_IS_VIEWED + " TEXT" + ")";
+                + KEY_IS_VIEWED + " TEXT," + KEY_IS_DOWNLOADED + " TEXT" + ")";
+//                + KEY_IS_VIEWED + " TEXT" + ")";
         db.execSQL(CREATE_FILMS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+//        if (newVersion == 2 && newVersion > oldVersion) {
+//            db.execSQL("ALTER TABLE films ADD COLUMN is_downloaded TEXT DEFAULT 'false'");
+//        }
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
         onCreate(db);
     }
@@ -44,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_IS_VIEWED, film.isViewed().toString());
+        values.put(KEY_IS_DOWNLOADED, film.isDownloaded().toString());
         values.put(KEY_NAME, film.getName());
 
         db.insert(TABLE_CONTACTS, null, values);
@@ -54,11 +60,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Film film = new Film();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED}, KEY_ID + "=?",
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
-            film = new Film(Integer.parseInt(cursor.getString(0)), cursor.getString(1), Boolean.parseBoolean(cursor.getString(2)));
+            film = new Film(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1),
+                    Boolean.parseBoolean(cursor.getString(2)),
+                    Boolean.parseBoolean(cursor.getString(3)));
         }
 
         return film;
@@ -67,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Film> getFilms(boolean isViewed) {
         List<Film> films = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED}, KEY_IS_VIEWED + "=?",
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED}, KEY_IS_VIEWED + "=?",
                 new String[]{String.valueOf(isViewed)}, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -76,6 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 film.setId(Integer.parseInt(cursor.getString(0)));
                 film.setName(cursor.getString(1));
                 film.setViewed(Boolean.parseBoolean(cursor.getString(2)));
+                film.setDownloaded(Boolean.parseBoolean(cursor.getString(3)));
 
                 films.add(film);
             } while (cursor.moveToNext());
@@ -97,6 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 film.setId(Integer.parseInt(cursor.getString(0)));
                 film.setName(cursor.getString(1));
                 film.setViewed(Boolean.parseBoolean(cursor.getString(2)));
+                film.setDownloaded(Boolean.parseBoolean(cursor.getString(3)));
 
                 films.add(film);
             } while (cursor.moveToNext());
@@ -110,6 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_IS_VIEWED, film.isViewed().toString());
+        values.put(KEY_IS_DOWNLOADED, film.isDownloaded().toString());
         values.put(KEY_NAME, film.getName());
 
         return db.update(TABLE_CONTACTS, values, KEY_ID + "=?",
@@ -134,6 +146,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Film updateViewedStatus(Film film) {
         film.setViewed(!film.isViewed());
+        return film;
+    }
+
+    public Film updatingDownloadStatus(Film film) {
+        film.setDownloaded(!film.isDownloaded());
         return film;
     }
 
