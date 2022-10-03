@@ -45,7 +45,6 @@ public class ViewedFilmsFragment extends Fragment {
         listView.setOnItemLongClickListener((parent, view1, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());
             service.longClick(parent, view1, position, id);
-            recreateFragment();
             return true;
         });
 

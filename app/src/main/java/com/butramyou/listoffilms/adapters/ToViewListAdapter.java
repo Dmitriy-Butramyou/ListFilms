@@ -57,7 +57,7 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
         viewHolder.changeStatusBtn.setOnClickListener(v -> {
             DatabaseHelper db = new DatabaseHelper(getContext());
             db.updateFilm(db.updateViewedStatus(currentFilm));
-            recreateCurrentFragment(!currentFilm.isViewed());
+            remove(currentFilm);
         });
 
         viewHolder.deleteBtn.setOnClickListener(v -> new MaterialAlertDialogBuilder(getContext())
@@ -65,21 +65,13 @@ public class ToViewListAdapter extends ArrayAdapter<Film> {
                 .setPositiveButton(v.getContext().getString(R.string.ok), (dialog, id) -> {
                     DatabaseHelper db = new DatabaseHelper(getContext());
                     db.deleteFilm(currentFilm.getId());
-                    recreateCurrentFragment(currentFilm.isViewed());
+                    remove(currentFilm);
                 })
                 .setNegativeButton(v.getContext().getString(R.string.cancel), (dialog, id) -> dialog.cancel())
                 .show());
         convertView.setTag(viewHolder);
 
         return convertView;
-    }
-
-    private void recreateCurrentFragment(boolean isViewed) {
-        if (isViewed) {
-            fragmentManager.beginTransaction().replace(R.id.main_frame, ViewedFilmsFragment.getInstance()).commit();
-        } else {
-            fragmentManager.beginTransaction().replace(R.id.main_frame, ToViewFilmsFragment.getInstance()).commit();
-        }
     }
 
     private class ViewHolder {
