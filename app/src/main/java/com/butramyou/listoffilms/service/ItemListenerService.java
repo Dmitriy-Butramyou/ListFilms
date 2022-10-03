@@ -5,10 +5,12 @@ import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.butramyou.listoffilms.R;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
 import com.butramyou.listoffilms.model.Film;
 
@@ -30,17 +32,28 @@ public class ItemListenerService {
         Toast.makeText(context, "Position: " + position, Toast.LENGTH_SHORT).show();
     }
 
-    public void doubleTab(AdapterView<?> adapterView, View view, int position, long id) {
+    public void doubleTab(AdapterView<?> adapterView, View view, int position) {
         long currTime = System.currentTimeMillis();
         if (lastClickPosition == position && currTime - lastClickTime < ViewConfiguration.getDoubleTapTimeout()) {
-            onItemDoubleClick(adapterView, view, position, id);
+            Film film = onItemDoubleClick(adapterView, position);
+            refreshViewItem(view, film);
         }
         lastClickTime = currTime;
         lastClickPosition = position;
     }
 
-    private void onItemDoubleClick(AdapterView<?> adapterView, View view, int position, long id) {
+    private void refreshViewItem(View view, Film film) {
+        TextView someText = (TextView) view.findViewById(R.id.to_view_film_item_list);
+        someText.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                film.isDownloaded() ? R.drawable.ic_downloaded : 0,
+                0);
+    }
+
+    private Film onItemDoubleClick(AdapterView<?> adapterView, int position) {
         Film currentFilm = (Film) adapterView.getItemAtPosition(position);
         db.updateFilm(db.updatingDownloadStatus(currentFilm));
+        return currentFilm;
     }
 }

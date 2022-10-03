@@ -40,8 +40,7 @@ public class ViewedFilmsFragment extends Fragment {
                 getFragmentManager());
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());
-            service.doubleTab(parent, view1, position, id);
-            recreateFragment();
+            service.doubleTab(parent, view1, position);
         });
         listView.setOnItemLongClickListener((parent, view1, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());

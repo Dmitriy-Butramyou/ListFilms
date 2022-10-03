@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ToViewFilmsFragment extends Fragment {
 
-    public static ToViewFilmsFragment getInstance()    {
+    public static ToViewFilmsFragment getInstance() {
         return new ToViewFilmsFragment();
     }
 
@@ -41,8 +41,7 @@ public class ToViewFilmsFragment extends Fragment {
                 getFragmentManager());
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());
-            service.doubleTab(parent, view1, position, id);
-            recreateFragment();
+            service.doubleTab(parent, view1, position);
         });
         listView.setOnItemLongClickListener((parent, view1, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());
