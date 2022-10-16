@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.butramyou.listoffilms.R;
 import com.butramyou.listoffilms.adapters.ToViewListAdapter;
@@ -43,9 +46,10 @@ public class ToViewFilmsFragment extends Fragment {
             ItemListenerService service = new ItemListenerService(getContext());
             service.doubleTab(parent, view1, position);
         });
-        listView.setOnItemLongClickListener((parent, view1, position, id) -> {
+        listView.setOnItemLongClickListener((parent, currentView, position, id) -> {
             ItemListenerService service = new ItemListenerService(getContext());
-            service.longClick(parent, view1, position, id);
+            service.longClick(currentView);
+            openFilmFragment(parent, position);
             return true;
         });
 
@@ -54,8 +58,12 @@ public class ToViewFilmsFragment extends Fragment {
         return view;
     }
 
-    private void recreateFragment() {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, ToViewFilmsFragment.getInstance()).commit();
+    private void openFilmFragment(AdapterView<?> adapterView, int position) {
+        Film currentFilm = (Film) adapterView.getItemAtPosition(position);
+        FilmFragment filmFragment = new FilmFragment(currentFilm, true);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, filmFragment);
+        fragmentTransaction.commit();
     }
 }

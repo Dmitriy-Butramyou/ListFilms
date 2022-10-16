@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,10 +25,9 @@ public class ItemListenerService {
         this.db = new DatabaseHelper(context);
     }
 
-    public void longClick(AdapterView<?> adapterView, View view, int position, long id) {
+    public void longClick(View view) {
         final Vibrator vibe = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         vibe.vibrate(80);
-        Toast.makeText(context, "Position: " + position, Toast.LENGTH_SHORT).show();
     }
 
     public void doubleTab(AdapterView<?> adapterView, View view, int position) {

@@ -24,14 +24,14 @@
         android:layout_marginTop="15dp">
 
         <Button
-            android:id="@+id/add_film_button"
+            android:id="@+id/update_film_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:text="@string/add_film" />
 
         <Button
-            android:id="@+id/add_film_cancel"
+            android:id="@+id/update_film_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"

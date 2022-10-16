@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.butramyou.listoffilms.databinding.ActivityMainBinding;
-import com.butramyou.listoffilms.fragments.AddFilmFragment;
+import com.butramyou.listoffilms.fragments.FilmFragment;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.BottomNavigationViewHelper;
@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding.fab.setOnClickListener(view -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_frame, AddFilmFragment.getInstance());
+            FilmFragment filmFragment = new FilmFragment();
+            transaction.replace(R.id.main_frame, filmFragment);
             transaction.commit();
         });
     }
