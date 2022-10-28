@@ -13,7 +13,7 @@
             android:layout_height="40dp"
             android:textStyle="normal"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:gravity="center_vertical"
             android:layout_marginStart="10dp" />
 
@@ -21,6 +21,7 @@
             android:id="@+id/change_watched_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/statusButtonColor"
             android:layout_toEndOf="@+id/to_view_film_item_list"
             android:src="@drawable/ic_viewed" />
 
@@ -28,6 +29,7 @@
             android:id="@+id/delete_film"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/statusButtonColor"
             android:layout_toEndOf="@+id/change_watched_status"
             android:src="@drawable/ic_delete" />
 
