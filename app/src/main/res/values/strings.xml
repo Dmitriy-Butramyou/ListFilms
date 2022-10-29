@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">List of films</string>
+    <string name="action_about_author">About author</string>
+    <string name="action_import">Import</string>
+    <string name="action_export">Export</string>
     <string name="viewed_films_label">Viewed</string>
     <string name="to_view_films_label">To view</string>
     <string name="add_film">Add film</string>
@@ -11,5 +14,6 @@
         <![CDATA[
             The movie <b>%1$s</b> will be deleted
         ]]>
-</string>
+    </string>
+    <string name="about_author_text">Just a good man</string>
 </resources>

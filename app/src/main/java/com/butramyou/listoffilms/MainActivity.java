@@ -2,12 +2,15 @@ package com.butramyou.listoffilms;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.butramyou.listoffilms.databinding.ActivityMainBinding;
+import com.butramyou.listoffilms.fragments.AuthorFragment;
 import com.butramyou.listoffilms.fragments.FilmFragment;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
@@ -61,5 +64,26 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_frame, ToViewFilmsFragment.getInstance());
         transaction.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_about_author) {
+            Fragment selectedFragment = AuthorFragment.getInstance();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_frame, selectedFragment);
+            transaction.commit();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
