@@ -8,10 +8,17 @@
         android:title="@string/action_import"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_export"
+        android:id="@+id/menu_export"
         android:orderInCategory="100"
-        android:title="@string/action_export"
-        app:showAsAction="never" />
+        android:title="@string/action_export_menu"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/create_new"
+                android:title="@string/action_share_export" />
+            <item android:id="@+id/action_export"
+                android:title="@string/action_export" />
+        </menu>
+    </item>
     <item
         android:id="@+id/action_about_author"
         android:orderInCategory="100"

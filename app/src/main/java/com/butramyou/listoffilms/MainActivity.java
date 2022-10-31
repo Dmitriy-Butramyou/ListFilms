@@ -15,7 +15,9 @@ import com.butramyou.listoffilms.fragments.FilmFragment;
 import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
 import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.BottomNavigationViewHelper;
+import com.butramyou.listoffilms.service.ExportService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
             Fragment selectedFragment = null;
 
-            switch (item.getItemId())   {
+            switch (item.getItemId()) {
                 case R.id.to_view:
                     item.setChecked(true);
                     selectedFragment = ToViewFilmsFragment.getInstance();
@@ -75,6 +77,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.action_export) {
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(this.getString(R.string.is_export_file))
+                    .setPositiveButton(this.getString(R.string.ok), (dialog, i) -> {
+                        ExportService exportService = new ExportService(this);
+                        exportService.exportFilms();
+                    })
+                    .setNegativeButton(this.getString(R.string.cancel), (dialog, i) -> dialog.cancel())
+                    .show();
+            return true;
+        }
 
         if (id == R.id.action_about_author) {
             Fragment selectedFragment = AuthorFragment.getInstance();

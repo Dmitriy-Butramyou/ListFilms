@@ -16,8 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import com.butramyou.listoffilms.R;
-import com.butramyou.listoffilms.fragments.ToViewFilmsFragment;
-import com.butramyou.listoffilms.fragments.ViewedFilmsFragment;
 import com.butramyou.listoffilms.helpers.DatabaseHelper;
 import com.butramyou.listoffilms.model.Film;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
