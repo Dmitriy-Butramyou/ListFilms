@@ -32,7 +32,7 @@ public class ToViewFilmsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_view, container, false);
         DatabaseHelper db = new DatabaseHelper(view.getContext());
-        List<Film> films = db.getFilms(false);
+        List<Film> films = db.getFilmsByStatus(false);
         FilmsComparator filmsComparator = new FilmsComparator();
         films.sort(filmsComparator);
 

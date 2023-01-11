@@ -28,8 +28,6 @@ public class BottomNavigationViewHelper {
                     item.setChecked(item.getItemData().isChecked());
                 }
             }
-
-
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }

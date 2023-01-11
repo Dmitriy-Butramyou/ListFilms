@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.butramyou.listoffilms.exceptions.ListOfFilmsException;
 import com.butramyou.listoffilms.model.Film;
 
 import java.util.ArrayList;
@@ -57,51 +58,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Film getFilm(int id) {
-        Film film = new Film();
         SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED},
+                KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED}, KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            film = new Film(Integer.parseInt(cursor.getString(0)),
-                    cursor.getString(1),
-                    Boolean.parseBoolean(cursor.getString(2)),
-                    Boolean.parseBoolean(cursor.getString(3)));
-        }
-
-        return film;
+        return convertToFilm(cursor).stream()
+                .findFirst()
+                .orElseThrow(() -> new ListOfFilmsException("Not found film by Id:" + id));
     }
 
-    public List<Film> getFilms(boolean isViewed) {
-        List<Film> films = new ArrayList<>();
+    public List<Film> getFilmsByStatus(boolean isViewed) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED}, KEY_IS_VIEWED + "=?",
-                new String[]{String.valueOf(isViewed)}, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Film film = new Film();
-                film.setId(Integer.parseInt(cursor.getString(0)));
-                film.setName(cursor.getString(1));
-                film.setViewed(Boolean.parseBoolean(cursor.getString(2)));
-                film.setDownloaded(Boolean.parseBoolean(cursor.getString(3)));
-
-                films.add(film);
-            } while (cursor.moveToNext());
-        }
-
-        return films;
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{KEY_ID, KEY_NAME, KEY_IS_VIEWED, KEY_IS_DOWNLOADED},
+                KEY_IS_VIEWED + "=?", new String[]{String.valueOf(isViewed)}, null, null, null);
+        return convertToFilm(cursor);
     }
 
-    public List<Film> getAllFilms() {
-        List<Film> films = new ArrayList<>();
-
+    public List<Film> getFilms() {
+        SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
-        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        return convertToFilm(cursor);
+    }
 
-        if (cursor.moveToFirst()) {
+    private List<Film> convertToFilm(Cursor cursor) {
+        List<Film> films = new ArrayList<>();
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 Film film = new Film();
                 film.setId(Integer.parseInt(cursor.getString(0)));
@@ -112,7 +94,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 films.add(film);
             } while (cursor.moveToNext());
         }
-
         return films;
     }
 
@@ -133,15 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_CONTACTS, KEY_ID + "=?",
                 new String[]{String.valueOf(filmId)});
         db.close();
-    }
-
-    public int getFilmsCount() {
-        String countQuery = "SELECT * FROM " + TABLE_CONTACTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
-        return cursor.getCount();
     }
 
     public Film updateViewedStatus(Film film) {

@@ -48,7 +48,7 @@ public class ExportService {
 
     private String createExportString() {
         DatabaseHelper db = new DatabaseHelper(context);
-        List<Film> films = db.getAllFilms();
+        List<Film> films = db.getFilms();
         return convertToJson(films);
     }
 
