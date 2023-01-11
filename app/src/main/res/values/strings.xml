@@ -2,7 +2,8 @@
     <string name="app_name">List of films</string>
     <string name="action_about_author">About author</string>
     <string name="action_import">Import</string>
-    <string name="action_export">Create export file</string>
+<!--    <string name="action_export">Create export file</string>-->
+    <string name="action_export">Export</string>
     <string name="action_share_export">Share an export</string>
     <string name="action_export_menu">Export Menu</string>
     <string name="viewed_films_label">Viewed</string>
